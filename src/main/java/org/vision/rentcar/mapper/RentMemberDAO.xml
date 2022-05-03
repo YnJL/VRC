@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.vision.rentcar.dao.RentMemberDAO">
+
+	<!--public int insert(RentMember dto);-->
+	<insert id="insert"  parameterType = "org.vision.rentcar.model.RentMember">
+		INSERT INTO RENT_MEMBER (ID,AGE,JOB,HOBBY,PASS,EMAIL,TEL)
+		VALUES (#{id},#{age},#{job},#{hobby},#{pass},#{email},#{tel})
+
+	</insert>
+
+
+	<!--public int delete(String key);-->
+	<delete id = "delete">
+		DELETE 
+		FROM RENT_MEMBER 
+		WHERE ID = #{param1}
+	</delete>	
+	
+	
+	<!--public int update(RentMember dto);-->
+	<update id="update" parameterType = "org.vision.rentcar.model.RentMember">
+		UPDATE RENT_MEMBER SET PASS = #{pass}, EMAIL = #{email}, TEL = #{tel}, 
+		    AGE = #{age}, JOB = #{job}, HOBBY = #{hobby}
+		WHERE ID = #{id}
+	</update>
+	
+	
+	<!--public RentMember select(String key);-->
+	<select id="select" resultType = "org.vision.rentcar.model.RentMember">
+		SELECT *
+		FROM RENT_MEMBER
+		WHERE ID = #{param1}
+	</select>
+
+	
+	<!--public List<RentMember> selectAll();-->
+	<select id="selectAll" resultType = "org.vision.rentcar.model.RentMember">
+		SELECT * 
+		FROM RENT_MEMBER
+		ORDER BY ID ASC
+	</select>
+	
+	
+	<!--public String getPassword(final String id);-->
+	<select id="getPassword" resultType = "string">
+		SELECT PASS
+		FROM RENT_MEMBER 
+		WHERE ID = #{param1}
+	</select>
+	
+	
+	<!--public int getAllCount();-->
+	<select id="getAllCount" resultType = "int">
+		SELECT COUNT(*)
+		FROM RENT_MEMBER
+	</select>
+	
+	
+	<!--public int batch(List<RentMember> list);-->
+	<insert id="batch" parameterType = "java.util.List">
+		<foreach collection="list" item = "dto" open = "INSERT ALL" close = "SELECT * FROM SYS.DUAL" separator = " ">
+		INTO RENT_MEMBER (ID,AGE,JOB,HOBBY,PASS,EMAIL,TEL)
+		VALUES (#{dto.id},#{dto.age},#{dto.job},#{dto.hobby},#{dto.pass},#{dto.email},#{dto.tel})
+		</foreach>
+	</insert>
+	
+
+
+</mapper>

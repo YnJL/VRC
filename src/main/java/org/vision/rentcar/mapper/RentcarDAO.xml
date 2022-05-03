@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.vision.rentcar.dao.RentcarDAO">
+
+ 	<insert id="insert" parameterType="org.vision.rentcar.model.Rentcar">
+ 		INSERT INTO RENTCAR(NO,NAME,CATEGORY,PRICE,USEPEOPLE,COMPANY,IMG,INFO)
+ 		VALUES(#{no},#{name},#{category},#{price},#{usepeople},#{company},#{img},#{info})
+ 	</insert>
+ 	
+ 	<delete id="delete">
+ 		DELETE FROM RENTCAR WHERE NO = #{param1}
+ 	</delete>
+
+	<update id="update" parameterType="org.vision.rentcar.model.Rentcar">
+		UPDATE RENTCAR SET NAME = #{name}, CATEGORY = #{category}, PRICE = #{price}, 
+				USEPEOPLE = #{usepeople}, COMPANY = #{company},	IMG = #{img}, INFO = #{info} 
+		WHERE NO = #{no}
+	</update>
+		
+ 	<select id="select" resultType="org.vision.rentcar.model.Rentcar">
+ 		SELECT * FROM RENTCAR WHERE NO = #{param1}
+ 	</select>	
+ 	
+ 	<select id="selectAll" resultType="org.vision.rentcar.model.Rentcar">
+ 		SELECT * FROM RENTCAR order by NO ASC
+ 	</select>
+
+	<select id="getCategory" resultType="String">
+		SELECT DISTINCT category FROM RENTCAR order by category ASC
+	</select>
+	<select id="getCompany" resultType="String">
+		SELECT DISTINCT Company FROM RENTCAR order by Company ASC
+	</select>
+	
+	<select id="searchby" resultType="org.vision.rentcar.model.Rentcar">
+		SELECT * FROM RENTCAR 
+		WHERE 
+				<foreach collection="param1" item="csize" open="(" close=")" separator="or">
+				Category = #{csize}</foreach> and
+			  
+				<foreach collection="param2" item="ccomp" open="(" close=")" separator="or">
+				Company = #{ccomp}</foreach>
+		 order by NO DESC
+	</select>
+</mapper>

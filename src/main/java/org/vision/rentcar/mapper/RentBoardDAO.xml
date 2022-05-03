@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.vision.rentcar.dao.RentBoardDAO">
+
+<resultMap id="result" type="org.vision.rentcar.model.RentBoard">
+	<id column = "NUM" property = "num"/>
+	<result column = "WRITER" property = "writer"/>
+	<result column = "EMAIL" property = "email"/>
+	<result column = "SUBJECT" property = "subject"/>
+	<result column = "PASSWORD" property = "password"/>
+	<result column = "REG_DATE" property = "reg_date" javaType = "java.sql.Date"/>
+	<result column = "REF" property = "ref" javaType = "Integer"/>
+	<result column = "RE_STEP" property = "re_step"/>
+	<result column = "RE_LEVEL" property = "re_level"/>
+	<result column = "READCOUNT" property = "readcount"/>
+	<result column = "CONTENT" property = "content"/>
+</resultMap>
+
+<insert id = "insert" parameterType = "org.vision.rentcar.model.RentBoard">
+	INSERT INTO RENT_BOARD(NUM,WRITER,EMAIL,SUBJECT,PASSWORD,REG_DATE,REF,RE_STEP,RE_LEVEL,READCOUNT,CONTENT)
+ 	VALUES (RENT_BOARD_SEQ.NEXTVAL,#{writer},#{email},#{subject},#{password},SYSDATE,RENT_BOARD_SEQ.CURRVAL,0,0,0,#{content})
+</insert>
+
+<select id = "selectAll" resultMap = "result">
+	SELECT NUM,WRITER,EMAIL,SUBJECT,PASSWORD,REG_DATE,REF,RE_STEP,RE_LEVEL,READCOUNT,CONTENT
+	FROM RENT_BOARD
+	ORDER BY REF DESC,RE_STEP ASC
+</select>
+
+<select id = "select" parameterType = "int" resultMap = "result">
+	SELECT NUM,WRITER,EMAIL,SUBJECT,PASSWORD,REG_DATE,REF,RE_STEP,RE_LEVEL,READCOUNT,CONTENT
+	FROM RENT_BOARD
+	WHERE NUM = #{param1}
+</select>
+
+<update id = "upHit" parameterType = "int">
+	UPDATE RENT_BOARD SET READCOUNT = READCOUNT + 1 
+	WHERE NUM = #{param1}
+</update>
+
+<insert id = "insert2" parameterType = "org.vision.rentcar.model.RentBoard">
+	INSERT INTO RENT_BOARD(NUM,WRITER,EMAIL,SUBJECT,PASSWORD,REG_DATE,REF,RE_STEP,RE_LEVEL,READCOUNT,CONTENT)
+	VALUES (RENT_BOARD_SEQ.NEXTVAL,#{writer},#{email},#{subject},#{password},SYSDATE,#{ref},#{re_step}+1,#{re_level}+1,0,#{content})
+</insert>
+
+<update id = "update" parameterType = "org.vision.rentcar.model.RentBoard">
+	UPDATE RENT_BOARD SET WRITER = #{writer}, EMAIL = #{email}, SUBJECT = #{subject}, CONTENT = #{content}
+	WHERE NUM = #{num}
+</update>
+
+<delete id = "delete" parameterType = "int">
+	DELETE
+	FROM RENT_BOARD
+	WHERE NUM = #{param1}
+</delete>
+
+<select id = "getAllCount" resultType = "Integer">
+	SELECT COUNT(*)
+	FROM RENT_BOARD
+</select>
+ 
+
+
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.vision.rentcar.dao.RentReserveDAO">
+
+ 	<insert id="rinsert" parameterType="org.vision.rentcar.model.RentReserve">
+ 		INSERT INTO Rent_Reserve(Regno,NO,QTY,DDAY,RDAY,INSURANCE,WIFI,NAVIGATION,BABYSEAT,ID)
+ 		VALUES(RENT_RESERVE_SEQ.NEXTVAL,#{no},#{qty},#{dday},#{rday},#{insurance},#{wifi},#{navigation},#{babyseat},#{id})
+ 		
+ 		<selectKey keyProperty="idx" resultType="Integer" order="AFTER">
+ 			SELECT RENT_RESERVE_SEQ.currval FROM dual
+ 		</selectKey>
+ 	</insert>
+ 	
+ 	<delete id="rdelete">
+ 		DELETE FROM Rent_Reserve WHERE Regno = #{param1}
+ 	</delete>
+
+	<update id="rupdate" parameterType="org.vision.rentcar.model.RentReserve">
+		UPDATE Rent_Reserve SET NO = #{no}, QTY = #{qty}, DDAY = #{dday}, RDAY = #{rday}, INSURANCE = #{insurance},  
+				WIFI = #{wifi}, NAVIGATION = #{navigation}, BABYSEAT = #{babyseat}, ID = #{id} 
+		WHERE Regno = #{regno}
+	</update>
+		
+ 	<select id="rselect" resultType="org.vision.rentcar.model.RentReserve">
+ 		SELECT * FROM Rent_Reserve WHERE Regno = #{param1}
+ 	</select>	
+ 	
+ 	<select id="rselectAll" resultType="org.vision.rentcar.model.RentReserve">
+ 		SELECT * FROM Rent_Reserve order by Regno DESC
+ 	</select>
+ 	
+ 	<select id="rselByid" resultType="org.vision.rentcar.model.RentReserve">
+ 		SELECT * FROM Rent_Reserve WHERE ID = #{param1} order by Regno DESC
+ 	</select>
+
+ 	
+</mapper>
